@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: nexus.feedback.emitter
+  threads:
+    virtual:
+      enabled: true
+
+server:
+  port: 8082
+  tomcat:
+    threads:
+      max: 200
+    keep-alive-timeout: 60s
+    max-keep-alive-requests: 10000
