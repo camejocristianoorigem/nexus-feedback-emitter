@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nexus-feedback-emitter
+  namespace: camejocristianoorige-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nexus-feedback-emitter
+  template:
+    metadata:
+      labels:
+        app: nexus-feedback-emitter
+    spec:
+      containers:
+      - name: emitter-container
+        image: docker.io/camejocristianoorigem/nexus-feedback-emitter:979980847f7a823f59195f80f5ededa6658bcc17
+        ports:
+        - containerPort: 8080 # Porta padrão onde a aplicação escuta

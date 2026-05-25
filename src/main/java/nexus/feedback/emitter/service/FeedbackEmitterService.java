@@ -1,5 +1,6 @@
 package nexus.feedback.emitter.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -18,7 +19,9 @@ public class FeedbackEmitterService {
             .executor(Executors.newVirtualThreadPerTaskExecutor())
             .build();
 
-    private final String PROCESSOR_URL = "http://localhost:8081/api/v1/feedbacks";
+    @Value("${PROCESSOR_URL:http://localhost:8081/api/v1/feedbacks}")
+    private String processorUrl;
+
     private final String ALPHABET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private final Random random = new Random();
 
@@ -47,7 +50,7 @@ public class FeedbackEmitterService {
                             """.formatted(UUID.randomUUID(), randomDescription, index);
 
                         HttpRequest request = HttpRequest.newBuilder()
-                                .uri(URI.create(PROCESSOR_URL))
+                                .uri(URI.create(processorUrl))
                                 .header("Content-Type", "application/json")
                                 .POST(HttpRequest.BodyPublishers.ofString(jsonPayload))
                                 .build();
